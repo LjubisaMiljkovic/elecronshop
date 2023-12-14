@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { Outlet } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+// components
+import NavbarComponenet from "./components/NavbarComponenet";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { restoreUser } from "./store/userSlice";
+
+// za baseUrl
+axios.defaults.baseURL = 'https://dummyjson.com';
+
+//za token interceptor
+axios.interceptors.request.use((config) => {
+  if (localStorage.hasOwnProperty('elToken')) {
+    config.headers.authorization = localStorage.getItem('elToken');
+  }
+  return config;
+})
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+
+    dispatch(restoreUser(JSON.parse(localStorage.getItem('elUser'))))
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      <NavbarComponenet />
+      <Outlet />
+      <ToastContainer />
     </div>
   );
 }

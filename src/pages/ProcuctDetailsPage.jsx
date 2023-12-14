@@ -1,0 +1,107 @@
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import ProductService from '../services/productService'
+// icons
+import { FaCheck } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
+import { CiHeart } from "react-icons/ci";
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+import { useDispatch } from 'react-redux';
+import { saveProductHandler } from '../store/cartSlice';
+
+
+function ProcuctDetailsPage() {
+
+
+    const [product, setProduct] = useState({});
+    const [currentImage, setCurrentImages] = useState(0)
+    const [value, setValue] = useState(1)
+    const dispatch = useDispatch()
+    let { id } = useParams();
+
+    useEffect(() => {
+
+        ProductService.getSingleProduct(id)
+            .then(res => {
+                setProduct(res.data)
+                setValue(res.data.rating)
+
+            })
+            .catch(err => console.log(err))
+    }, [])
+    // ovde dodajemo u nas cardSlice
+    function productHandler() {
+        dispatch(saveProductHandler(product))
+    }
+
+
+    return (
+        <div className='h-[100vh]'>
+            <div className='container mx-auto flex mt-[50px] gap-[20px]'>
+                {/*images*/}
+
+                <div className='w-[50%] flex flex-col'>
+                    <img src={product.images?.[currentImage]} alt="" className='w-full h-[500px] object-cover border-2 border-mainBlue rounded-[20px]' />
+
+                    <div className='flex items-center justify-between mt-[20px]'>
+                        {product.images?.map((img, index) => {
+                            return <img src={img} className='w-[100px] h-[100px] border border-mainBlue p-2 rounded-[20px] cursor-pointer' onClick={() => setCurrentImages(index)} />
+                        }
+                        )}
+                    </div>
+                </div>
+                {/* description*/}
+                <div className='w-[50%]'>
+                    <div className='flex flex-col gap-3'>
+                        <div className='flex flex-col'>
+                            <h3 className='text-xl text-mainBlue'>{product.title}</h3>
+                            <p className='text-xl '>${product.price}</p>
+
+                        </div>
+                        <div className='flex items-center'>
+                            <p>Rating:</p>
+                            <Stack spacing={1}>
+                                <Rating name="half-rating-read" value={value} precision={0.5} readOnly />
+                            </Stack>
+
+                        </div>
+                        <div className='flex items-center gap-[10px]'>
+                            <p>Availability:</p>
+                            {product.stock >= 1 ?
+                                <div className='flex items-center  gap-2 text-green-500'>
+                                    <FaCheck size={24} /> <span>In stock</span>
+                                </div>
+                                :
+                                <div className='flex items-center  gap-2 text-red-500'><RxCross1 size={28} /><span>Out Of Stock</span>
+                                </div>}
+                        </div>
+                        <h3>Hurry up! only <span className='font-bold'>{product.stock}</span> product left in stock</h3>
+                    </div>
+                    <div className='mt-[50px]'>
+                        <h3 className='text-xl'>Total Price:<span className='text-mainBlue font-bold text-2xl'>{product.price}</span></h3>
+                        <div className='flex items-center'>
+                            <p>Quantity:</p>
+                            <button className='px-[8px] py-[4px] bg-slate-400'>+</button>
+                            <span className='px-[8px] py-[4px] bg-slate-400'>0</span>
+                            <button className='px-[8px] py-[4px] bg-slate-400'>-</button>
+                        </div>
+
+                        <div className='flex items-center gap-5'>
+                            <Link
+                                to='/catrProduct'
+                                className='bg-mainYellow px-[24px] py-[12px] rounded-full'
+                                onClick={() => productHandler()}
+                            >
+                                Add to Cart
+                            </Link>
+                            <Link to='/' className='bg-mainYellow px-[24px] py-[12px] rounded-full'><CiHeart size={32} color='white' /></Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default ProcuctDetailsPage
