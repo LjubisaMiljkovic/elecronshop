@@ -5,10 +5,12 @@ import ProductService from '../services/productService'
 import { FaCheck } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveProductHandler } from '../store/cartSlice';
+import { saveFavoriteHandler } from '../services/favoriteSlice';
 
 
 function ProcuctDetailsPage() {
@@ -17,7 +19,11 @@ function ProcuctDetailsPage() {
     const [product, setProduct] = useState({});
     const [currentImage, setCurrentImages] = useState(0)
     const [value, setValue] = useState(1)
+    const [favoriteIcon, setfavoriteIcon] = useState(null)
+
     const dispatch = useDispatch()
+    const { favorite } = useSelector(state => state.favoriteStore);
+
     let { id } = useParams();
 
     useEffect(() => {
@@ -30,11 +36,30 @@ function ProcuctDetailsPage() {
             })
             .catch(err => console.log(err))
     }, [])
+
+    // favorite useEffect
+    useEffect(() => {
+        favorite.find((el) => {
+            if (el.id === parseInt(id)) {
+                console.log("ima u areju")
+                // info
+                setfavoriteIcon(el.id)
+                return;
+            } else {
+                console.log("nema");
+            }
+        })
+    }, [favorite])
+
     // ovde dodajemo u nas cardSlice
     function productHandler() {
         dispatch(saveProductHandler(product))
     }
 
+    //Ovde cuvamo u favoriteSlice
+    const favoriteHandler = () => {
+        dispatch(saveFavoriteHandler(product))
+    }
 
     return (
         <div className='h-[100vh]'>
@@ -46,7 +71,7 @@ function ProcuctDetailsPage() {
 
                     <div className='flex items-center justify-between mt-[20px]'>
                         {product.images?.map((img, index) => {
-                            return <img src={img} className='w-[100px] h-[100px] border border-mainBlue p-2 rounded-[20px] cursor-pointer' onClick={() => setCurrentImages(index)} />
+                            return <img key={index} src={img} className='w-[100px] h-[100px] border border-mainBlue p-2 rounded-[20px] cursor-pointer' onClick={() => setCurrentImages(index)} />
                         }
                         )}
                     </div>
@@ -95,13 +120,22 @@ function ProcuctDetailsPage() {
                             >
                                 Add to Cart
                             </Link>
-                            <Link to='/' className='bg-mainYellow px-[24px] py-[12px] rounded-full'><CiHeart size={32} color='white' /></Link>
+                            <Link
+                                to='/favoriteProducts'
+                                className='bg-mainYellow px-[24px] py-[12px] rounded-full'
+                                onClick={() => favoriteHandler()}
+                            >{/* da dendlujem */}
+
+                                {favoriteIcon === parseInt(id) ? <FaHeart size={32} color='red' /> : <CiHeart size={32} color='white' />}
+
+                            </Link>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     )
+
 }
 
 export default ProcuctDetailsPage

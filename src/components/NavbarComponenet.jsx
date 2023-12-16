@@ -11,6 +11,7 @@ function NavbarComponenet() {
 
     const { user } = useSelector((state) => state.userStore)
     const { totalProducts } = useSelector((state) => state.cartStore)
+    const { favoriteTotal } = useSelector((state) => state.favoriteStore)
     return (
         <div className='bg-mainBlue h-[100px] px[15px] md:px-0' >
             <div className='container mx-auto flex justify-between items-center h-[100px]'>
@@ -32,8 +33,10 @@ function NavbarComponenet() {
 
                     </div>}
                     <div className='flex items-center gap-1'>
-                        <FaHeart className='text-white text-2xl cursor-pointer' />
-                        <span className='bg-mainYellow text-white rounded-full px-[5px]'>0</span>
+                        <Link to='/favoriteProducts'>
+                            <FaHeart className='text-white text-2xl cursor-pointer' />
+                        </Link>
+                        <span className='bg-mainYellow text-white rounded-full px-[5px]'>{favoriteTotal}</span>
                     </div>
                     <div className='flex items-center gap-1'>
                         <FaShoppingCart className='text-white text-2xl cursor-pointer' />

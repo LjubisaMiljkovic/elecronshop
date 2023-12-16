@@ -12,6 +12,7 @@ import LoginPages from './pages/LoginPages';
 import ProfilePage from './pages/ProfilePage';
 import ProcuctDetailsPage from './pages/ProcuctDetailsPage';
 import CarProductPage from './pages/CarProductPage';
+import FavoriteProductPage from './pages/FavoriteProductPage';
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/catrProduct',
         element: <CarProductPage />
+      },
+      {
+        path: '/favoriteProducts',
+        element: <FavoriteProductPage />
       }
     ],
 

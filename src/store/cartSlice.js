@@ -10,7 +10,6 @@ const cartSlice = createSlice({
     },
     reducers: {
         saveProductHandler: (state, action) => {
-            console.log(action);
 
             let copyArray = [...state.cart]
 
@@ -38,6 +37,9 @@ const cartSlice = createSlice({
         },
         setPriceHandler: (state, action) => {
             const { increment, index } = action.payload;
+            // Promeniti logiku, da se salje item(jedan proizvod preko actin.payload) i da se nadje index array-u(stata.cart);
+
+
             let copyArray = [...state.cart];
 
             copyArray[index].cartTotal += copyArray[index].price * increment;
