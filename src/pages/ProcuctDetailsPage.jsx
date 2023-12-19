@@ -13,9 +13,11 @@ import { saveProductHandler } from '../store/cartSlice';
 import { saveFavoriteHandler } from '../services/favoriteSlice';
 
 
+
 function ProcuctDetailsPage() {
 
-
+    const [quantity, satQuantity] = useState(0);
+    const [localTotalPrice, setLocalTotalPrice] = useState(0);
     const [product, setProduct] = useState({});
     const [currentImage, setCurrentImages] = useState(0)
     const [value, setValue] = useState(1)
@@ -23,6 +25,7 @@ function ProcuctDetailsPage() {
 
     const dispatch = useDispatch()
     const { favorite } = useSelector(state => state.favoriteStore);
+    const { cart } = useSelector(state => state.cartStore);
 
     let { id } = useParams();
 
@@ -59,6 +62,15 @@ function ProcuctDetailsPage() {
     //Ovde cuvamo u favoriteSlice
     const favoriteHandler = () => {
         dispatch(saveFavoriteHandler(product))
+    }
+
+    // Quantity Calculator
+    function quantityHandle(increment) {
+        if (quantity >= 0) {
+            if (quantity === 0 && increment === -1) {
+                return
+            } else { satQuantity(quantity + increment) }
+        }
     }
 
     return (
@@ -104,13 +116,17 @@ function ProcuctDetailsPage() {
                         <h3>Hurry up! only <span className='font-bold'>{product.stock}</span> product left in stock</h3>
                     </div>
                     <div className='mt-[50px]'>
-                        <h3 className='text-xl'>Total Price:<span className='text-mainBlue font-bold text-2xl'>{product.price}</span></h3>
+                        <h3 className='text-xl'>Total Price:<span className='text-mainBlue font-bold text-2xl'>{quantity * product.price}</span></h3>
+                        {/*Componenta Quantiti */}
+
                         <div className='flex items-center'>
                             <p>Quantity:</p>
-                            <button className='px-[8px] py-[4px] bg-slate-400'>+</button>
-                            <span className='px-[8px] py-[4px] bg-slate-400'>0</span>
-                            <button className='px-[8px] py-[4px] bg-slate-400'>-</button>
+                            <button className='px-[8px] py-[4px] bg-slate-400' onClick={() => quantityHandle(1)}>+</button>
+                            <span className='px-[8px] py-[4px] bg-slate-400'>{quantity}</span>
+                            <button className='px-[8px] py-[4px] bg-slate-400' onClick={() => quantityHandle(-1)}>-</button>
+
                         </div>
+
 
                         <div className='flex items-center gap-5'>
                             <Link

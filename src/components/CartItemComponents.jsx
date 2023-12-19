@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setPriceHandler } from '../store/cartSlice';
 import { Link } from 'react-router-dom';
 
+
 function CartItemComponents({ item, index }) {
 
     const dispatch = useDispatch()
@@ -14,10 +15,11 @@ function CartItemComponents({ item, index }) {
             <div>
                 <p>{item.title}</p>
                 <p>{item.category}</p>
-
             </div>
 
             <h3>${item.price}</h3>
+           //QuantityComponent
+
             <div>
                 <button className='px-[8px] py-[4px] bg-slate-400' onClick={() => dispatch(setPriceHandler({ increment: 1, index }))}>+</button>
                 <span className='px-[8px] py-[4px] bg-slate-400'>{item.count}</span>
