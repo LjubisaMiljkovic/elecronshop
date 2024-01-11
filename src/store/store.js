@@ -10,9 +10,8 @@ const store = configureStore({
         userStore: userSlice,
         productStore: productSlice,
         cartStore: cartSlice,
-        favoriteStore: favoriteSlice
-
-    }
+        favoriteStore: favoriteSlice,
+        }
 })
 
 export default store

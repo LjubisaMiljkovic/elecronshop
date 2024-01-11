@@ -17,7 +17,7 @@ import { saveFavoriteHandler } from '../services/favoriteSlice';
 function ProcuctDetailsPage() {
 
     const [quantity, satQuantity] = useState(0);
-    const [localTotalPrice, setLocalTotalPrice] = useState(0);
+    
     const [product, setProduct] = useState({});
     const [currentImage, setCurrentImages] = useState(0)
     const [value, setValue] = useState(1)
@@ -25,7 +25,7 @@ function ProcuctDetailsPage() {
 
     const dispatch = useDispatch()
     const { favorite } = useSelector(state => state.favoriteStore);
-    const { cart } = useSelector(state => state.cartStore);
+    
 
     let { id } = useParams();
 

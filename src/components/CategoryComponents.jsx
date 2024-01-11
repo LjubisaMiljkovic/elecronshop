@@ -24,7 +24,7 @@ function CategoryComponents() {
     }
 
     function handleCategory(cat) {
-        console.log(cat);
+        
         dispatch(currentCategoryHandler(cat));
     }
     return (

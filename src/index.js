@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProcuctDetailsPage from './pages/ProcuctDetailsPage';
 import CarProductPage from './pages/CarProductPage';
 import FavoriteProductPage from './pages/FavoriteProductPage';
+import SearchProduktPages from './pages/SearchProduktPages';
 
 
 const router = createBrowserRouter([
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/favoriteProducts',
         element: <FavoriteProductPage />
+      },
+      {
+        path:'/search',
+        element:<SearchProduktPages/>
       }
     ],
 
