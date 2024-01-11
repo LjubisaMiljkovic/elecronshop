@@ -4,7 +4,6 @@ import ProductService from '../services/productService'
 import { useDispatch, useSelector } from 'react-redux'
 import { productsHandler,deleteSearchProduct } from '../store/productSlice'
 
-
 import SingleCardComponents from '../components/SingleCardComponents'
 
 function ProductPages() {
